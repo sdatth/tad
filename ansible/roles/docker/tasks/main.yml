@@ -20,8 +20,7 @@
 
 - name: sleep for 20 sec
   ansible.builtin.wait_for:
-    wait_for:
-      timeout: 20
+    timeout: 20
 
 - name: install docker 
   ansible.builtin.apt:
