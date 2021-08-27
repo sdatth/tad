@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: yes
+  roles:
+    - sshd
+    - ufw
+    - docker  
+
+- hosts: all
+  roles:
+    - containers

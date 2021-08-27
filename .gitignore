@@ -1,0 +1,4 @@
+.gitsecret/keys/random_seed
+!*.secret
+ansible/vaultkey
+terraform/variables.tf

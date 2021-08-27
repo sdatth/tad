@@ -1,0 +1,32 @@
+---
+- name: modifying authentication method
+  ansible.builtin.replace:
+    path: '/etc/ssh/sshd_config'
+    after: 'PasswordAuthentication'
+    regexp: '^(.*)PasswordAuthentication(.*)$'
+    replace: ''
+  
+- name: restricting to key authentication only   
+  ansible.builtin.lineinfile:
+    path: '/etc/ssh/sshd_config'
+    regexp: '^(.*)PasswordAuthentication(.*)$'
+    line: 'PasswordAuthentication no'
+  
+- name: modifying root login
+  ansible.builtin.replace:
+    path: '/etc/ssh/sshd_config'
+    after: 'PermitRootLogin'
+    regexp: '^(.*)PermitRootLogin(.*)$'
+    replace: ''
+  
+- name: restricting root logins
+  ansible.builtin.lineinfile:
+    path: '/etc/ssh/sshd_config'
+    regexp: '^(.*)PermitRootLogin(.*)$'
+    line: 'PermitRootLogin no'
+
+- name: SSHD Restart
+  ansible.builtin.service: 
+    name: sshd 
+    state: restarted 
+    enabled: yes

@@ -1,0 +1,4 @@
+ansible-galaxy collection install ansible.posix
+ansible-galaxy collection install community.docker
+python3 -m pip install --user docker docker-compose
+sudo apt install sshpass

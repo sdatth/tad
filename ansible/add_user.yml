@@ -1,0 +1,21 @@
+---
+- hosts: all
+  become: yes
+  vars_files:
+    - vars.yml
+  tasks:
+    - name: add non root user
+      ansible.builtin.user:
+        name: "{{username}}"
+        shell: /bin/bash
+        groups: sudo
+        append: yes
+        create_home: yes
+        password: "{{password}}"
+
+    - name: install public keys on nodes
+      ansible.posix.authorized_key:
+        user: "{{username}}"
+        state: present
+        key: "{{ lookup('file', '~/.ssh/dev-ed.pub') }}"
+
