@@ -19,8 +19,8 @@ resource "digitalocean_droplet" "web2" {
   provisioner "local-exec" {
     command = <<-EOT
       cd ../ansible/
-      ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u root -i '${self.ipv4_address},' --private-key ${var.pvt_key} -e 'pub_key=${var.pub_key}' --vault-password-file vaultkey add_user.yml
-      ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ${var.username} -i '${self.ipv4_address},' --private-key ${var.pvt_key} -e 'pub_key=${var.pub_key}' -e "username=${var.username}" -e ansible_become_pass=${var.upass} site.yml
+      ansible-playbook -u root -i '${self.ipv4_address},' --private-key ${var.pvt_key} -e 'pub_key=${var.pub_key}' --vault-password-file vaultkey add_user.yml
+      ansible-playbook -u ${var.username} -i '${self.ipv4_address},' --private-key ${var.pvt_key} -e 'pub_key=${var.pub_key}' -e "username=${var.username}" -e ansible_become_pass=${var.upass} site.yml
     EOT
   }
 }
