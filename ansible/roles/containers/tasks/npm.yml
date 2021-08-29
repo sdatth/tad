@@ -1,0 +1,36 @@
+---
+- name: npm
+  community.docker.docker_container:
+    name: nproxy
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart_policy: always
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    env:
+      DB_MYSQL_HOST: 'nproxy-db'
+      DB_MYSQL_PORT: '3306'
+      DB_MYSQL_USER: 'npm'
+      DB_MYSQL_PASSWORD: 'npm'
+      DB_MYSQL_NAME: 'npm'
+    volumes:
+      - ./nproxy_data:/data
+      - ./nproxy_letsencrypt:/etc/letsencrypt
+    networks: 
+      - name: nproxy_default    
+
+- name: npm-db  
+  community.docker.docker_container:
+    name: nproxy-db
+    image: 'jc21/mariadb-aria:latest'
+    restart_policy: always
+    env:
+      MYSQL_ROOT_PASSWORD: 'npm'
+      MYSQL_DATABASE: 'npm'
+      MYSQL_USER: 'npm'
+      MYSQL_PASSWORD: 'npm'
+    volumes:
+      - ./nproxy_data/mysql:/var/lib/mysql       
+    networks:
+      - name: nproxy_default

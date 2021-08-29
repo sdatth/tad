@@ -2,8 +2,10 @@
 - name: install prerequisites
   ansible.builtin.apt:
     update_cache: yes
-    name:
-      - ufw
+    update_cache_retries: 5
+    update_cache_retry_max_delay: 5
+    name: ufw
+    state: latest  
 
 - name: Deny all incoming by default
   community.general.ufw:

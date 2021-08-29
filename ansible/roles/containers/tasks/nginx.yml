@@ -1,0 +1,10 @@
+---
+- name: Deploy Portainer
+  community.docker.docker_container:
+    name: nginx
+    image: 'nginx:alpine'
+    ports:
+      - "8080:80"
+    restart_policy: always
+    networks:
+      - name: nproxy_default

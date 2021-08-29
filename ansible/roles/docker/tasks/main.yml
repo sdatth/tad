@@ -2,6 +2,8 @@
 - name: install prerequisites
   ansible.builtin.apt:
     update_cache: yes
+    update_cache_retries: 5
+    update_cache_retry_max_delay: 5
     name:
       - apt-transport-https
       - ca-certificates 
@@ -25,6 +27,8 @@
 - name: install docker 
   ansible.builtin.apt:
     update_cache: yes
+    update_cache_retries: 5
+    update_cache_retry_max_delay: 5
     name: 
       - docker-ce
       - docker-ce-cli

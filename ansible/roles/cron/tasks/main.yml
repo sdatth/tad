@@ -1,0 +1,45 @@
+---
+- name: install cron
+  ansible.builtin.apt:
+    update_cache: yes
+    update_cache_retries: 5
+    update_cache_retry_max_delay: 5 
+    name: 
+      - cron
+      - aptitude
+    state: latest
+
+- name: Upgrade packages and system
+  ansible.builtin.apt:
+    update_cache: yes
+    update_cache_retries: 5
+    update_cache_retry_max_delay: 5 
+    upgrade: yes
+
+- name: Add cron job to update system
+  ansible.builtin.cron:
+    name: update system
+    user: root
+    minute: "0"
+    hour: "2"
+    job: "/usr/bin/apt update"
+
+- name: Add cron job to upgrade system
+  ansible.builtin.cron:
+    name: upgrade system
+    user: root
+    minute: "5"
+    hour: "2"
+    job: "DEBIAN_FRONTEND=noninteractive /usr/bin/apt upgrade -y"
+
+- name: Remove useless packages from the cache
+  ansible.builtin.apt:
+    autoclean: yes
+
+- name: Remove dependencies that are no longer required
+  ansible.builtin.apt:
+    autoremove: yes    
+
+- name: reboot system
+  ansible.builtin.reboot:
+    reboot_timeout: 350
